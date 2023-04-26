@@ -3,21 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <title>Viral Variables</title>
+  
+  <link href="assets/viralvariable.png" rel="icon">
   <link rel="stylesheet" href="styles.css">
-</head>
 
-<body>
-
-	  <div class="container">
-		<h2>Hello world</h2>
-		
+  <style>
+	.modal {
+	  display: none;
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  background-color: rgba(0, 0, 0, 0.4);
+	  z-index: 9999;
+	}
+  
+	.modal-content {
+	  display: flex;
+	  flex-direction: row;
+	  align-items: center;
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  padding: 20px;
+	  background-color: black;
+	  border-radius: 5px;
+	  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	  color: #E63C35;
+	}
+  
+	.modal-close {
+	  top: 10px;
+	  right: 10px;
+	  cursor: pointer;
+	}
+  
+	.logo-img {
+	  width: 15%;
+	  margin-right: 20px;
+	}
+  </style>
+  
+  <body>
+	<div class="container">
+	  <h2>Hello world</h2>
+	  <h3>she says ... In her way to destroy this same world...</h3>
+	</div>
+  
+	<div class="footer"></div>
+  
+	<div id="modal" class="modal">
+	  <div class="modal-content">
+		<img class="logo-img" src="assets/viralvariable.png" alt="viralvariablelogo">
+		<div>
+		  <p>ALERTE, une pandémie vient d'éclater, fais de ton mieux pour gérer cette crise ! </p>
+		  <button id="modal-close" class="modal-close">Commencer</button>
+		</div>
 	  </div>
-	  
-	  <div class="footer">
-	  </div>
+	</div>
+  
+	<script src="js/app.js" type="module"></script>
+  </body>
 
-<script src="js/app.js" type="module"></script>
-
-
-</body>
 </html>
