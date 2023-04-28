@@ -11,10 +11,22 @@
   
   button{
     margin: 10px 0px;
+
   }
+
+  button.disabled {
+	pointer-events: none;
+	opacity: 0.5; /* pour indiquer visuellement que le bouton est désactivé */
+	cursor: default; /* pour empêcher le changement de curseur au survol */
+  }
+
   
   /* Style the content */
-  .container {
+  .container, .event {
+	display:flex;
+	flex-direction: column;
+
+	align-items: center;
 	margin:auto;
 	text-align: center;
 	
