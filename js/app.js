@@ -94,6 +94,17 @@ function aleas() {
 
 function guerison() {
 	addText("oups la fonction de guérison n'est pas encore codée", eventContentContainer);
+
+	let proba = 0.5; 
+
+	if(math.binomiale(3, proba) >= 2){
+		addSick = -50;
+		addText("ouiii", eventContentContainer);
+	}else{
+		addText("Raté ! Pas de vaccins", eventContentContainer);
+	}
+
+
 	endOfRound = true;
 	eventEnded = true;
 	updateState();
