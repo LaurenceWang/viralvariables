@@ -8,6 +8,7 @@ let count = 0;
 let malades = 0;
 let nbMalades = 0;
 let addSick = 0;
+let addContamination = 0;
 const eventType = ["depistage", "aleas", "guerison", "surprise"];
 
 let endOfRound = true;
@@ -41,7 +42,7 @@ window.onload = function () {
 
 //fin de tour
 nextRoundbtn.onclick = () => {
-	maladeEvolution(addSick);
+	maladeEvolution(addSick, addContamination);
 	endOfRound = false;
 	eventEnded = false;
 	eventContainer.style.display = "none";
@@ -77,8 +78,9 @@ function updateState(){
 
 
 /***** fonctions des events *****/
-function depistage() {
-	addText("oups la fonction de dépistage n'est pas encore codée", eventContentContainer);
+function depistage(originalPopulation, malades) {
+	addText("Les laboratoires ont mis en place un test de dépistage, si une personne est malade le test est positif à 99%, si une personne n'est pas malade le test est positif à 0.1%", eventContentContainer);
+	addContamination;
 	
 	endOfRound = true;
 	eventEnded = true;
@@ -147,14 +149,14 @@ function addText(text, div){
 
 /** malade evolution **/
 
-function maladeEvolution(eventResult) {
+function maladeEvolution(eventResult, contaminationResult) {
 	count++;
 	population -= nbMalades;
 	nbMalades = math.poissonDistribution(lambda) + eventResult;
 	malades += nbMalades;
 	addSick = 0;
 
-	let popText = `${nbMalades} nouvelles personnes ont été contaminées aujourd'hui dont ${eventResult} causés par l'évènement de la veille. <br> Le nombre de personnes contaminées total JOUR ${count} est ${malades} <br> Population en bonne santé : ${originalPopulation - malades}`;
+	let popText = `${nbMalades} nouvelles personnes ont été contaminées aujourd'hui dont ${eventResult} causés par l'évènement de la veille et ${contaminationResult} causés par contamination. <br> Le nombre de personnes contaminées total JOUR ${count} est ${malades} <br> Population en bonne santé : ${originalPopulation - malades}`;
 	addText(popText, popEvoContainer);
 }
 
