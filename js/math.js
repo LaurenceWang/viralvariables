@@ -58,6 +58,24 @@ export function successGeo() {
 	return k; //nombre de tirages nécessaires pour avoir un succès
 }
 
+export function bernoulli(p) {
+	if (rand() < p) {
+	  return 1; // succès
+	} else {
+	  return 0; // échec
+	}
+}
+
+export function binomiale(n, p) {
+	let succes = 0;
+	
+	for (let i = 0; i < n; i++) {
+	  succes += bernoulli(p);
+	}
+	
+	return succes;
+}
+
 export function rollDice(nbEventType) {
 	return Math.floor(Math.random() * nbEventType);
 }
