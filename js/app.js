@@ -20,7 +20,8 @@ let popEvoContainer = document.getElementById('popEvolution');
 let eventContainer = document.getElementById('event');
 let eventNameContainer = document.getElementById('eventName');
 let eventContentContainer = document.getElementById('eventContent');
-let choix = document.getElementById('choice')
+let guerisonContentContainer = document.getElementById('guerisonContainer');
+let guerisonPresentationContainer = document.getElementById('guerison-presentation');
 
 //recuperation boutons
 let nextRoundbtn = document.getElementById('nextRound');
@@ -47,6 +48,7 @@ nextRoundbtn.onclick = () => {
 	endOfRound = false;
 	eventEnded = false;
 	eventContainer.style.display = "none";
+	guerisonContentContainer.style.display = "none";
 	updateState()
 
 };
@@ -100,21 +102,50 @@ function aleas() {
 }
 
 function guerison() {
-	addText("oups la fonction de guérison n'est pas encore codée", eventContentContainer);
 
-	let proba = 0.5; 
+	addText("", eventContentContainer);
+	guerisonContentContainer.style.display = "block";
+	guerisonPresentationContainer.style.display = "block";
 
-	if(math.binomiale(3, proba) >= 2){
-		addSick = -50;
-		addText("ouiii", eventContentContainer);
-	}else{
-		addText("Raté ! Pas de vaccins", eventContentContainer);
-	}
+	
+	let proba = 0; 
 
+	let gbtn1 =  document.getElementById('g1');
+	let gbtn2 =  document.getElementById('g2');
+	let gbtn3 =  document.getElementById('g3');
+
+	gbtn1.onclick = () => {
+		proba = 0.3;
+		guerisonChoice(proba, 0.5)
+	};
+	
+	gbtn2.onclick = () => {
+		proba = 0.5;
+		guerisonChoice(proba, 0.25)
+	};
+
+	gbtn3.onclick = () => {
+		proba = 0.9;
+		guerisonChoice(proba, 0.10)
+	};
+	
 
 	endOfRound = true;
 	eventEnded = true;
 	updateState();
+}
+
+function guerisonChoice(proba, percentage){
+
+	let resultContainer = document.getElementById('guerison-result');
+	guerisonPresentationContainer.style.display = "none";
+	
+	if(math.binomiale(3, proba) >= 2){
+		addSick = - Math.floor(nbMalades*percentage);
+		addText(`Super !! ${Math.abs(addSick)} personnes ont été guéri par le remède`, resultContainer);
+	}else{
+		addText("Zut...Une mauvaise rumeur autour du remède a dissuadé la population de l'utiliser", resultContainer);
+	}
 }
 
 function surprise() {

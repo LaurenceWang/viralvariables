@@ -1,44 +1,80 @@
 <!DOCTYPE html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>Viral Variables</title>
-  
-  <link href="assets/viralvariable.png" rel="icon">
-  <link rel="stylesheet" href="styles.css">
+	<meta charset="UTF-8">
+	<title>Viral Variables</title>
 
-  
-  <body>
+	<link href="assets/viralvariable.png" rel="icon">
+	<link rel="stylesheet" href="styles.css">
+
+
+<body>
 	<div class="container">
-	  <h2>Hello world</h2>
-	  <h3>she says ... In her way to destroy this same world...</h3>
+		<h2>Hello world</h2>
+		<h3>she says ... In her way to destroy this same world...</h3>
 	</div>
-  
 
-  
+
+
 	<div id="modal" class="modal">
-	  <div class="modal-content">
-		<img class="logo-img" src="assets/viralvariable.png" alt="viralvariablelogo">
-		<div>
-		  <p>ALERTE, une pandémie vient d'éclater, fais de ton mieux pour gérer cette crise ! </p>
-		  <button id="modal-close" class="modal-close">Commencer</button>
+		<div class="modal-content">
+			<img class="logo-img" src="assets/viralvariable.png" alt="viralvariablelogo">
+			<div>
+				<p>ALERTE, une pandémie vient d'éclater, fais de ton mieux pour gérer cette crise ! </p>
+				<button id="modal-close" class="modal-close">Commencer</button>
+			</div>
 		</div>
-	  </div>
 	</div>
-  
+
 	<div class="game" id="game">
 		<div class="container">
 			<p>Un clic sur le bouton = un jour</p>
 			<button class="nextRound" id="nextRound">Fin de tour</button>
-			<div class="popEvolution" id="popEvolution"></div>	
+			<div class="popEvolution" id="popEvolution"></div>
 			<button class="dice disabled" id="dice">Tirer un évènement</button>
 			<div class="event" id="event">
 				<div class="eventName" id="eventName"></div>
-				<div class="eventContent" id="eventContent">
+				<div class="eventContent" id="eventContent"></div>
+
+				<div class="guerisonContainer" id="guerisonContainer">
+
+					<div id="guerison-presentation">
+						<p>3 Types de remèdes sont disponibles :
+							<ul>
+								<li>
+									Le nouveau vaccin Statimune, il est très efficace mais la population est réticente
+									à le tester.
+								</li>
+								<li>
+									Le médicament Dolimac qui est moyennement efficace. La population est prête à le
+									prendre malgré quelques avis mitigés.
+								</li>
+
+								<li>
+									Gausspray, un spray adoré par la population mais peu efficace.
+								</li>
+							</ul>
+
+						</p>
+						<p> Quel remède choisissez-vous ?</p>
+
+						<div class="guerison-choice">
+							<button id="g1">Statimune</button>
+							<button id="g2">Dolimac</button>
+							<button id="g3">Gausspray</button>
+						</div>
+
+					</div>
+
+
+					<div id="guerison-result">
+
+					</div>
+
 				</div>
 			</div>
-			
-			
+
+
 
 		</div>
 	</div>
@@ -46,6 +82,6 @@
 	<fotter></fotter>
 
 	<script src="js/app.js" type="module"></script>
-  </body>
+</body>
 
 </html>
