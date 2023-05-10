@@ -20,6 +20,7 @@ let popEvoContainer = document.getElementById('popEvolution');
 let eventContainer = document.getElementById('event');
 let eventNameContainer = document.getElementById('eventName');
 let eventContentContainer = document.getElementById('eventContent');
+let choix = document.getElementById('choice')
 
 //recuperation boutons
 let nextRoundbtn = document.getElementById('nextRound');
@@ -78,9 +79,13 @@ function updateState(){
 
 
 /***** fonctions des events *****/
-function depistage(originalPopulation, malades) {
-	addText("Les laboratoires ont mis en place un test de dépistage, si une personne est malade le test est positif à 99%, si une personne n'est pas malade le test est positif à 0.1%", eventContentContainer);
-	addContamination;
+function depistage() {
+	addText("Les laboratoires ont mis en place 3 tests de dépistage, choisissez celui qui vous semble le plus avantageux", 
+	eventContentContainer);
+	
+	addText("Laboratoires Géomédic, Laboratoires Statistix, Laboratoires Poissanté ", 
+	eventContentContainer);
+	addContamination=(math.binomiale(malades, 0.01))*3;
 	
 	endOfRound = true;
 	eventEnded = true;
@@ -163,9 +168,10 @@ function addText(text, div){
 function maladeEvolution(eventResult, contaminationResult) {
 	count++;
 	population -= nbMalades;
-	nbMalades = math.poissonDistribution(lambda) + eventResult;
+	nbMalades = math.poissonDistribution(lambda) + eventResult + contaminationResult;
 	malades += nbMalades;
 	addSick = 0;
+	addContamination = 0;
 
 	let popText = `${nbMalades} nouvelles personnes ont été contaminées aujourd'hui dont ${eventResult} causés par l'évènement de la veille et ${contaminationResult} causés par contamination. <br> Le nombre de personnes contaminées total JOUR ${count} est ${malades} <br> Population en bonne santé : ${originalPopulation - malades}`;
 	addText(popText, popEvoContainer);
