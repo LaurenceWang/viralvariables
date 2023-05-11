@@ -22,6 +22,8 @@ let eventNameContainer = document.getElementById('eventName');
 let eventContentContainer = document.getElementById('eventContent');
 let guerisonContentContainer = document.getElementById('guerisonContainer');
 let guerisonPresentationContainer = document.getElementById('guerison-presentation');
+let depistageContentContainer = document.getElementById('depistageContainer');
+let depistagePresentationContainer = document.getElementById('depistage-presentation');
 
 //recuperation boutons
 let nextRoundbtn = document.getElementById('nextRound');
@@ -49,6 +51,7 @@ nextRoundbtn.onclick = () => {
 	eventEnded = false;
 	eventContainer.style.display = "none";
 	guerisonContentContainer.style.display = "none";
+	depistageContentContainer.style.display = "none";
 	updateState()
 
 };
@@ -82,16 +85,45 @@ function updateState(){
 
 /***** fonctions des events *****/
 function depistage() {
-	addText("Les laboratoires ont mis en place 3 tests de dépistage, choisissez celui qui vous semble le plus avantageux", 
-	eventContentContainer);
+
+	addText("", eventContentContainer);
+	depistageContentContainer.style.display = "block";
+	depistagePresentationContainer.style.display = "block";
+
 	
-	addText("Laboratoires Géomédic, Laboratoires Statistix, Laboratoires Poissanté ", 
-	eventContentContainer);
-	addContamination=(math.binomiale(malades, 0.01))*3;
+	let proba = 0; 
+
+	let dbtn1 =  document.getElementById('d1');
+	let dbtn2 =  document.getElementById('d2');
+	let dbtn3 =  document.getElementById('d3');
+
+	dbtn1.onclick = () => {
+		proba = 0.01;
+		depistageChoice(proba)
+	};
+	
+	dbtn2.onclick = () => {
+		proba = 0.05;
+		depistageChoice(proba)
+	};
+
+	dbtn3.onclick = () => {
+		proba = 0.02;
+		depistageChoice(proba)
+	};
 	
 	endOfRound = true;
 	eventEnded = true;
 	updateState();
+}
+
+function depistageChoice(proba){
+
+	let resultContainer = document.getElementById('depistage-result');
+	depistagePresentationContainer.style.display = "none";
+	
+	addContamination=(math.binomiale(malades, proba))*3;
+	addText(`Aie ${Math.abs(addContamination/3)} personnes ont été déclarées négatives alors qu'elles étaient bien malades et ont fait ${Math.abs(addContamination)} contaminations`, resultContainer);
 }
 
 function aleas() {
