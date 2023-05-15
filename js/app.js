@@ -25,6 +25,13 @@ let guerisonPresentationContainer = document.getElementById('guerison-presentati
 let depistageContentContainer = document.getElementById('depistageContainer');
 let depistagePresentationContainer = document.getElementById('depistage-presentation');
 
+let geo_malade = document.getElementById('geo_malade');
+let geo_pasmalade = document.getElementById('geo_pasmalade');
+let stati_malade = document.getElementById('stati_malade');
+let stati_pasmalade = document.getElementById('stati_pasmalade');
+let poissan_malade = document.getElementById('poissan_malade');
+let poissan_pasmalade = document.getElementById('poissan_pasmalade');
+
 //recuperation boutons
 let nextRoundbtn = document.getElementById('nextRound');
 let eventBtn = document.getElementById('dice');
@@ -85,8 +92,12 @@ function updateState(){
 
 /***** fonctions des events *****/
 function depistage() {
-
-	addText("", eventContentContainer);
+	addText(`${math.rand()}`, stati_malade);
+	addText(`${math.rand()}`, stati_pasmalade);
+	addText(`${math.rand()}`, geo_malade);
+	addText(`${math.rand()}`, geo_pasmalade);
+	addText(`${math.rand()}`, poissan_malade);
+	addText(`${math.rand()}`, poissan_pasmalade);
 	depistageContentContainer.style.display = "block";
 	depistagePresentationContainer.style.display = "block";
 
@@ -98,17 +109,17 @@ function depistage() {
 	let dbtn3 =  document.getElementById('d3');
 
 	dbtn1.onclick = () => {
-		proba = 0.01;
+		proba = geo_malade;
 		depistageChoice(proba)
 	};
 	
 	dbtn2.onclick = () => {
-		proba = 0.05;
+		proba = stati_malade;
 		depistageChoice(proba)
 	};
 
 	dbtn3.onclick = () => {
-		proba = 0.02;
+		proba = poissan_malade;
 		depistageChoice(proba)
 	};
 	
@@ -118,6 +129,7 @@ function depistage() {
 }
 
 function depistageChoice(proba){
+
 
 	let resultContainer = document.getElementById('depistage-result');
 	depistagePresentationContainer.style.display = "none";

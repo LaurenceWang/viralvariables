@@ -1,5 +1,12 @@
 export function rand() {
-	return Math.random();
+	let randomvalue = Math.random();
+	console.log(randomvalue);
+	if (randomvalue == 0){
+		return 0
+	};
+	
+	return (Math.round(randomvalue * Math.pow(10,2))/ Math.pow(10,2));
+
 }
 
 export function poissonDistribution(lambda) {
