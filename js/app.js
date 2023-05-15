@@ -9,7 +9,7 @@ let malades = 0;
 let nbMalades = 0;
 let addSick = 0;
 let addContamination = 0;
-const eventType = ["depistage", "aleas", "guerison", "surprise"];
+const eventType = ["depistage", "aleas", "guerison", "surprise", "immunité"];
 
 let endOfRound = true;
 let eventEnded = true;
@@ -144,6 +144,14 @@ function aleas() {
 	eventEnded = true;
 	updateState();
 }
+
+function immunité() {
+	addText("Immunité générale !!", eventContentContainer);
+	endOfRound = true;
+	eventEnded = true;
+	updateState();
+}
+
 
 function guerison() {
 
