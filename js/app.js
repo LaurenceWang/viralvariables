@@ -1,7 +1,6 @@
 import * as math from './math.js';
 
-//variables 
-const originalPopulation = 10000;
+let originalPopulation = 15000;
 let population = originalPopulation;
 let lambda = 50;
 let count = 0; // Nombre de jours
@@ -17,7 +16,9 @@ let endOfRound = true;
 let eventEnded = true;
 
 //recuperation div
-let gameContainer =  document.getElementById('game');
+let gameContainer = document.getElementById('game');
+let countryContainer = document.getElementById('country-choice');
+let virusContainer = document.getElementById('virus-choice');
 let popEvoContainer = document.getElementById('popEvolution');
 let eventContainer = document.getElementById('event');
 let eventNameContainer = document.getElementById('eventName');
@@ -38,59 +39,102 @@ let poissan_pasmalade = document.getElementById('poissan_pasmalade');
 let nextRoundbtn = document.getElementById('nextRound');
 let eventBtn = document.getElementById('dice');
 
-
 window.onload = function () {
     let modal = document.getElementById('modal');
     let modalClose = document.getElementById('modal-close');
-
+    let countryContainer = document.getElementById('country-choice');
+    let virusContainer = document.getElementById('virus-choice');
+  
     modal.style.display = 'block';
-
+  
     modalClose.onclick = function () {
-        modal.style.display = 'none';
-        gameContainer.style.display = 'block';
-
+      modal.style.display = 'none';
+      countryContainer.style.display = 'block';
     };
-};
+  
+    let countryClose = document.getElementsByClassName('close-country-button');
+    for (let i = 0; i < countryClose.length; i++) {
+      countryClose[i].onclick = function () {
+        if (i==0){
+            originalPopulation = 10000;
+        }
+        if (i==1){
+            originalPopulation = 70000;
+        }
+    
+        if (i==2){
+            originalPopulation = 300000;
+        }
+        console.log("Updated originalPopulation:", originalPopulation);
+        countryContainer.style.display = 'none';
+        virusContainer.style.display = 'block';
+      };
+    }
+    let virusClose = document.getElementsByClassName('close-virus-button');
+        for (let i = 0; i < virusClose.length; i++) {
+        let lambdaValue;
+        if (i == 0) {
+            lambdaValue = 10;
+        } else if (i == 1) {
+            lambdaValue = 50;
+        } else if (i == 2) {
+            lambdaValue = 100;
+        }
 
+  virusClose[i].onclick = function () {
+    lambda = lambdaValue;
+    console.log("Updated contamination:", lambda);
+    virusContainer.style.display = 'none';
+    gameContainer.style.display = 'block';
+  };
+}
+  };
+  
 
 //fin de tour
 nextRoundbtn.onclick = () => {
-    maladeEvolution(addSick, addContamination);
-    endOfRound = false;
-    eventEnded = false;
-    eventContainer.style.display = "none";
-    guerisonContentContainer.style.display = "none";
-    depistageContentContainer.style.display = "none";
-    updateState()
-
+  maladeEvolution(addSick, addContamination);
+  endOfRound = false;
+  eventEnded = false;
+  eventContainer.style.display = "none";
+  guerisonContentContainer.style.display = "none";
+  depistageContentContainer.style.display = "none";
+  updateState();
 };
 
 eventBtn.onclick = () => {
-    let resultEvent = eventType[math.rollDice(eventType.length)];
-    addText(resultEvent, eventNameContainer);
+  let resultEvent = eventType[Math.floor(Math.random() * eventType.length)];
+  addText(resultEvent, eventNameContainer);
 
-    //on appelle la fonction qui correspond à l'event
-    eval(resultEvent + "()");
-    eventContainer.style.display = "flex";
+  //on appelle la fonction qui correspond à l'event
+  eval(resultEvent + "()");
+  eventContainer.style.display = "flex";
 };
 
+function updateState() {
+  //rendre les boutons inactifs
+  if (!endOfRound) {
+    nextRoundbtn.classList.add('disabled');
+  } else {
+    nextRoundbtn.classList.remove('disabled');
+  }
 
+  if (!eventEnded) {
+    eventBtn.classList.remove('disabled');
+  } else {
+    eventBtn.classList.add('disabled');
+  }
+}
 
-function updateState(){
-    //rendre les boutons inactifs
-    if (!endOfRound) {
-        nextRoundbtn.classList.add('disabled');
-    }else{
-        nextRoundbtn.classList.remove('disabled');
-    }
+function changePopulation(population) {
+  originalPopulation = population;
+  console.log("Updated originalPopulation:", originalPopulation);
+}
 
-    if (!eventEnded) {
-        eventBtn.classList.remove('disabled');
-    }else{
-        eventBtn.classList.add('disabled');
-    }
-};
-
+function changeVirus(contamination) {
+    lambda = contamination;
+    console.log("Updated contamination:", contamination);
+  }
 
 /***** fonctions des events *****/
 function depistage() {

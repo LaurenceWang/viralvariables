@@ -96,6 +96,20 @@ export function binomiale(n, p) {
     return succes;
 }
 
+export function normalFunction(x, mu, sigma) {
+  const randomValue = generateRandomFromNormalDistribution(mu, sigma);
+  const result = x + randomValue;
+  return result;
+}
+
+function generateRandomFromNormalDistribution(mu, sigma) {
+  const u1 = 1 - Math.random(); 
+  const u2 = 1 - Math.random(); 
+  const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  const randomValue = z * sigma + mu;
+  return randomValue;
+}
+
 // If n is big enough, it simulates Poisson by binomiale
 // In this project n should be the population for instance
 export function binomialeMockPoisson(n) {

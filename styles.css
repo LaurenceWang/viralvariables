@@ -24,8 +24,8 @@
 	cursor: default; /* pour empêcher le changement de curseur au survol */
   }
 
-  
-  /* Style the content */
+
+
   .container, .event {
 	display:flex;
 	flex-direction: column;
@@ -81,6 +81,58 @@
 
   .game{
     display:none;
+  }
+  
+  .country-choice {
+	display: none;
+	text-align: center;
+  }
+  
+  .country-buttons {
+    display:flex;
+	justify-content: center; 
+	align-items: center;
+	width: 100%;
+  }
+
+  .country-card {
+	text-align: center;
+  }
+  
+  .close-country-button {
+	border: none;
+	background: none;
+	cursor: pointer;
+  }
+  
+  .flag {
+	width: 100px;
+  }
+
+  .virus-choice {
+	display: none;
+	text-align: center;
+  }
+  
+  .virus-buttons {
+    display:flex;
+	justify-content: center; 
+	align-items: center;
+	width: 100%;
+  }
+
+  .virus-card {
+	text-align: center;
+  }
+  
+  .close-virus-button {
+	border: none;
+	background: none;
+	cursor: pointer;
+  }
+  
+  .virus {
+	width: 100px;
   }
 
   .guerisonContainer{

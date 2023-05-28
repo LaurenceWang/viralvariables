@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-
+<html>
 <head>
 	<meta charset="UTF-8">
 	<title>Viral Variables</title>
 
 	<link href="assets/viralvariable.png" rel="icon">
 	<link rel="stylesheet" href="styles.css">
-
+</head>
 
 <body>
 	<div class="container">
 		<h2>Hello world</h2>
-		<h3>she says ... In her way to destroy this same world...</h3>
 	</div>
-
-
 
 	<div id="modal" class="modal">
 		<div class="modal-content">
@@ -25,8 +22,61 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="country-choice" id="country-choice">
+		<p>Pour commencer, choisi un pays</p>
+		<div class="country-buttons" id="country-buttons">
+			<div class="country-card">
+				<button class="close-country-button" type="button">
+					<img class="flag" src="assets/grece.png" alt="greeceflag">
+				</button>
+				<p>Greece</p>
+			</div>
+			<div class="country-card">
+				<button class="close-country-button" type="button">
+					<img class="flag" src="assets/france.png" alt="franceflag">
+				</button>
+				<p>France</p>
+			</div>
+			<div class="country-card">
+				<button class="close-country-button" type="button">
+					<img class="flag" src="assets/usa.png" alt="usaflag">
+				</button>
+				<p>United States</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="virus-choice" id="virus-choice">
+		<p>Ensuite, choisi un virus</p>
+		<div class="virus-buttons" id="virus-buttons">
+			<div class="virus-card">
+				<button class="close-virus-button" type="vbutton">
+					<img class="virus" src="assets/easy-virus.png" alt="happy virus pic">
+				</button>
+				<p>Facile</p>
+			</div>
+			<div class="virus-card">
+				<button class="close-virus-button" type="vbutton">
+					<img class="virus" src="assets/middle-virus.png" alt="virus pic">
+				</button>
+				<p>Moyen</p>
+			</div>
+			<div class="virus-card">
+				<button class="close-virus-button" type="vbutton">
+					<img class="virus" src="assets/hard-virus.png" alt="angry virus pic">
+				</button>
+				<p>Difficile</p>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/app.js"></script>
+	  
+	  
 
 	<div class="game" id="game">
+		
 		<div class="container">
 			<p>Un clic sur le bouton = un jour</p>
 			<button class="nextRound" id="nextRound">Fin de tour</button>
