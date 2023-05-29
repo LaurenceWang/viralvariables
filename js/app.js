@@ -5,7 +5,6 @@ let deads = 0;
 let lambda = 50;
 let count = 0; // Nombre de jours
 let immunityCount = 0;
-let immunityState = false;
 let malades = 0;
 let nbMalades = 0;
 let addSick = 0;
@@ -28,12 +27,12 @@ let guerisonPresentationContainer = document.getElementById('guerison-presentati
 let depistageContentContainer = document.getElementById('depistageContainer');
 let depistagePresentationContainer = document.getElementById('depistage-presentation');
 
-let geo_malade = document.getElementById('geo_malade');
-let geo_pasmalade = document.getElementById('geo_pasmalade');
-let stati_malade = document.getElementById('stati_malade');
-let stati_pasmalade = document.getElementById('stati_pasmalade');
-let poissan_malade = document.getElementById('poissan_malade');
-let poissan_pasmalade = document.getElementById('poissan_pasmalade');
+let geoMalade = document.getElementById('geo_malade');
+let geoPasMalade = document.getElementById('geo_pasmalade');
+let statiMalade = document.getElementById('stati_malade');
+let statiPasMalade = document.getElementById('stati_pasmalade');
+let poissanMalade = document.getElementById('poissan_malade');
+let poissanPasMalade = document.getElementById('poissan_pasmalade');
 
 //recuperation boutons
 let nextRoundbtn = document.getElementById('nextRound');
@@ -138,12 +137,12 @@ function changeVirus(contamination) {
 
 /***** fonctions des events *****/
 function depistage() {
-    addText(`${math.rand()}`, stati_malade);
-    addText(`${math.rand()}`, stati_pasmalade);
-    addText(`${math.rand()}`, geo_malade);
-    addText(`${math.rand()}`, geo_pasmalade);
-    addText(`${math.rand()}`, poissan_malade);
-    addText(`${math.rand()}`, poissan_pasmalade);
+    addText(`${math.rand()}`, statiMalade);
+    addText(`${math.rand()}`, statiPasMalade);
+    addText(`${math.rand()}`, geoMalade);
+    addText(`${math.rand()}`, geoPasMalade);
+    addText(`${math.rand()}`, poissanMalade);
+    addText(`${math.rand()}`, poissanPasMalade);
     depistageContentContainer.style.display = "block";
     depistagePresentationContainer.style.display = "block";
 
@@ -155,17 +154,17 @@ function depistage() {
     let dbtn3 =  document.getElementById('d3');
 
     dbtn1.onclick = () => {
-        proba = geo_malade;
+        proba = geoMalade;
         depistageChoice(proba)
     };
 
     dbtn2.onclick = () => {
-        proba = stati_malade;
+        proba = statiMalade;
         depistageChoice(proba)
     };
 
     dbtn3.onclick = () => {
-        proba = poissan_malade;
+        proba = poissanMalade;
         depistageChoice(proba)
     };
 
@@ -180,7 +179,7 @@ function depistageChoice(proba){
     let resultContainer = document.getElementById('depistage-result');
     depistagePresentationContainer.style.display = "none";
 
-    addContamination=(math.binomiale(malades, proba))*3;
+    addContamination=(math.binomiale(malades, Number(proba.innerText)))*3;
     addText(`Aie ${Math.abs(addContamination/3)} personnes ont été déclarées négatives alors qu'elles étaient bien malades et ont fait ${Math.abs(addContamination)} contaminations`, resultContainer);
 }
 
@@ -205,8 +204,7 @@ function immunity() {
     addText("Immunité générale !!", eventContentContainer);
     endOfRound = true;
     eventEnded = true;
-    immunityState = true;
-    immunityCount = 0;
+    immunityCount = math.generateImmunityDuration();
     updateState();
 }
 
@@ -309,21 +307,19 @@ function addText(text, div){
 function maladeEvolution(eventResult, contaminationResult) {
     count++;
     let popText;
-    nbMalades = math.poissonDistribution(lambda) + eventResult + contaminationResult;
+    let dailySicks = math.poissonDistribution(lambda)
 
-    if (immunityState === true) { // Immunity state has been triggered by immunity event
-        if (math.immunity(immunityCount)) { // Hence immunity is tested 
-            nbMalades = 0; // If immunized, no sickness for today
-        } else { // If not, the state is lost
-            immunityState = false;
-        }
+    if (immunityCount > 0) { // Immunity state has been triggered by immunity event
+        dailySicks = 0; // If immunized, no sickness for today
         // While on immunity we count how many days does it last
-        immunityCount++;
+        immunityCount--;
     }
 
+    nbMalades = dailySicks + eventResult + contaminationResult;
     malades += nbMalades;
     addSick = 0;
     addContamination = 0;
+    malades = Math.min(malades, originalPopulation)
 
     popText = `${nbMalades} nouvelles personnes ont été contaminées aujourd'hui dont ${eventResult} 
                 causés par l'évènement de la veille et ${contaminationResult} causés par contamination. 
