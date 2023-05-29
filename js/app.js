@@ -56,14 +56,14 @@ window.onload = function () {
     for (let i = 0; i < countryClose.length; i++) {
       countryClose[i].onclick = function () {
         if (i==0){
-            originalPopulation = math.generateRandomFromNormalDistribution(10_000, 500);
+            originalPopulation = math.NormalDistribution(10_000, 500);
         }
         if (i==1){
-            originalPopulation = math.generateRandomFromNormalDistribution(70_000, 3_500);
+            originalPopulation = math.NormalDistribution(70_000, 3_500);
         }
     
         if (i==2){
-            originalPopulation = math.generateRandomFromNormalDistribution(300_000, 15_000);
+            originalPopulation = math.NormalDistribution(300_000, 15_000);
         }
         console.log("Updated originalPopulation:", originalPopulation);
         countryContainer.style.display = 'none';
@@ -138,12 +138,12 @@ function changeVirus(contamination) {
 
 /***** fonctions des events *****/
 function depistage() {
-    const geoMaladeValue = ((Math.random() * 0.10) + 0.90).toFixed(2);
-    const geoPasMaladeValue = (Math.random() * 0.10).toFixed(2);
-    const statiMaladeValue = ((Math.random() * 0.10) + 0.90).toFixed(2);
-    const statiPasMaladeValue = ((Math.random() * 0.10) + 0.90).toFixed(2);
-    const poissanMaladeValue = (Math.random() * 0.10).toFixed(2);
-    const poissanPasMaladeValue = (Math.random() * 0.10).toFixed(2);
+    const geoMaladeValue = ((math.rand() * 0.10) + 0.90).toFixed(2);
+    const geoPasMaladeValue = (math.rand() * 0.10).toFixed(2);
+    const statiMaladeValue = ((math.rand() * 0.10) + 0.90).toFixed(2);
+    const statiPasMaladeValue = ((math.rand() * 0.10) + 0.90).toFixed(2);
+    const poissanMaladeValue = (math.rand() * 0.10).toFixed(2);
+    const poissanPasMaladeValue = (math.rand() * 0.10).toFixed(2);
 
     addText(geoMaladeValue, geoMalade);
     addText(geoPasMaladeValue, geoPasMalade);
@@ -246,18 +246,18 @@ function guerison() {
     let gbtn3 =  document.getElementById('g3');
 
     gbtn1.onclick = () => {
-        proba = 0.9;
-        guerisonChoice(proba, 0.1)
+        proba = Number(math.rand() * 0.10 +0.90).toFixed(2);
+        guerisonChoice(proba, Number(math.rand() * 0.10).toFixed(2));
     };
 
     gbtn2.onclick = () => {
-        proba = 0.3;
-        guerisonChoice(proba, 0.4)
+        proba = Number(math.rand() * 0.10 +0.3).toFixed(2);
+        guerisonChoice(proba, Number(math.rand() * 0.10 +0.4).toFixed(2))
     };
 
     gbtn3.onclick = () => {
-        proba = 0.05;
-        guerisonChoice(proba, 0.5)
+        proba = Number(math.rand() * 0.10).toFixed(2);
+        guerisonChoice(proba, Number(math.rand() * 0.10 +0.5).toFixed(2))
     };
 
 
@@ -288,18 +288,18 @@ function guerisonChoice(proba, percentage){
 }
 
 function surprise() {
-    let playerNumber = math.rollDice(100); // On tire un nombre aléatoire entre 1 et 100
+    let playerNumber = 100 * (malades/(originalPopulation)); // On tire un nombre aléatoire entre 1 et 100
 
     let successNumber = math.successGeo(); // Utilisation de la fonction successGeo() pour obtenir le nombre de tirages nécessaires pour un succès
 
     let msgNumber = math.rollDice(4); // Génération du numéro de message aléatoire
 
     if (playerNumber > successNumber) {
-        addSick = math.rollDice(successNumber*0.01*(originalPopulation)%malades);
+        addSick = math.rollDice(successNumber*0.01*(originalPopulation)%malades); // permet d'avoir un nombre assez cohérent tout au long de la partie
         addText(negSurprise(msgNumber, addSick), eventContentContainer);
         console.log("Événement négatif");
     } else {
-        addSick = -math.rollDice(playerNumber*0.01*(originalPopulation)%malades);
+        addSick = -math.rollDice(successNumber*0.01*(originalPopulation)%malades);
         addText(posSurprise(msgNumber, addSick), eventContentContainer);
         console.log("Événement positif");
     }
@@ -362,10 +362,10 @@ function maladeEvolution(eventResult, contaminationResult) {
 //j'ai changé de fonction pour la loi de poisson cf math.js
 //
 //probablement à utiliser pour la vision particules
-function nbMaladeMacro(Y, lambda) { // elle renvoit beaucoup de fois 0, c'est abérant ou j'ai pas compris un truc ?
+function nbMaladeMacro(Y, lambda) { 
     let nbMalades = 0;
     for (let i = 0; i < Y; i++) {
-        const p = math.poisson(lambda, i);
+        const p = math.poissonDistribution(lambda, i);
         //const rand = Math.random();
         if (math.rand() < p) {
             nbMalades = i;
