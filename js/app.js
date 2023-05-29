@@ -1,4 +1,6 @@
+//import * as stats from './stats.js';
 import * as math from './math.js';
+import { chartData, eventData, surpriseData, immuData, guerisonData, aleaData, depistageData } from './stats.js';
 
 let originalPopulation = 15000;
 let deads = 0;
@@ -11,10 +13,66 @@ let addSick = 0;
 let addContamination = 0;
 const eventType = ["depistage", "aleas", "guerison", "surprise", "immunity"];
 
+//evoChart
+let sickEvolution = [];
+let days = [];
+let newSick = [];
+let dead = [];
+
+//eventChart
+let depiCount = 0;
+let aleaCount = 0;
+let guerisonCount = 0;
+let surpCount = 0;
+let immuCount = 0;
+
+
+//surpriseChart
+let surpRoundNb = [];
+let playerNb = [];
+let successNb = [];
+let addSickNb = [];
+
+//immunityChart
+let immunityNb = [];
+
+//guerisonChart
+let guerisonName = ["Statimune", "Dolimac", "Gausspray"];
+let guChoice1 = 0;
+let guChoice2 = 0;
+let guChoice3 = 0;
+
+let gueSuccess1 = 0;
+let gueSuccess2 = 0;
+let gueSuccess3 = 0;
+
+
+//aleaChart 
+let aleaRoundNb = [];
+let aleaNb = [];
+
+//depistageChart
+let depistageName = ["Géomédic", "Statistix", "Poissanté"];
+let dpChoice1 = 0;
+let dpChoice2 = 0;
+let dpChoice3 = 0;
+
+let dpSuccess1 = 0;
+let dpSuccess2 = 0;
+let dpSuccess3 = 0;
+
+
 let endOfRound = true;
 let eventEnded = true;
 
 //recuperation div
+const ctx = document.getElementById('stats');
+const ctx2 = document.getElementById('stats2');
+const ctx3 = document.getElementById('stats3');
+const ctx4 = document.getElementById('stats4');
+const ctx5 = document.getElementById('stats5');
+const ctx6 = document.getElementById('stats6');
+const ctx7 = document.getElementById('stats7');
 let gameContainer = document.getElementById('game');
 let countryContainer = document.getElementById('country-choice');
 let virusContainer = document.getElementById('virus-choice');
@@ -37,6 +95,10 @@ let poissanPasMalade = document.getElementById('poissan_pasmalade');
 //recuperation boutons
 let nextRoundbtn = document.getElementById('nextRound');
 let eventBtn = document.getElementById('dice');
+
+let  statBtn = document.getElementById('show-stats');
+statBtn.style.display = "none";
+
 
 window.onload = function () {
     let modal = document.getElementById('modal');
@@ -85,6 +147,7 @@ window.onload = function () {
     console.log("Updated contamination:", lambda);
     virusContainer.style.display = 'none';
     gameContainer.style.display = 'block';
+   
   };
 }
   };
@@ -99,6 +162,8 @@ nextRoundbtn.onclick = () => {
   guerisonContentContainer.style.display = "none";
   depistageContentContainer.style.display = "none";
   updateState();
+  endGame();
+
 };
 
 eventBtn.onclick = () => {
@@ -109,6 +174,60 @@ eventBtn.onclick = () => {
   eval(resultEvent + "()");
   eventContainer.style.display = "flex";
 };
+
+function endGame(){
+    
+    if(malades + deads >= originalPopulation ){
+        console.log("bad end");
+        nextRoundbtn.classList.add('disabled');
+        eventBtn.classList.add('disabled');
+
+        statBtn.style.display = "block";
+        addText("Perdu ! ", gameContainer);
+       
+    }
+
+    if(count >= 30){
+        statBtn.style.display = "block";
+
+        if(originalPopulation - (malades + deads) <= 0.1 * originalPopulation){
+            nextRoundbtn.classList.add('disabled');
+            eventBtn.classList.add('disabled');
+            addText("Perdu ! ", gameContainer)
+         
+            console.log("bad end")
+        }else{
+            nextRoundbtn.classList.add('disabled');
+            eventBtn.classList.add('disabled');
+            addText("Gagné ! ", gameContainer)
+            
+
+          
+            console.log("good end")
+        }
+
+    } 
+
+}
+
+statBtn.onclick = () => {
+    let eventNb = [depiCount, aleaCount, guerisonCount, surpCount, immuCount];
+    let successGuNb = [gueSuccess1, gueSuccess2, gueSuccess3];
+    let choiceGuNb = [guChoice1, guChoice2, guChoice3];
+
+    let contaminationNb = [dpSuccess1, dpSuccess2, dpSuccess3];
+    let choiceDpNb = [dpChoice1, dpChoice2, dpChoice3];
+
+
+    chartData(ctx, sickEvolution, days, newSick, dead);
+    eventData(ctx2, eventType, eventNb);
+    surpriseData(ctx3, surpRoundNb, playerNb, successNb, addSickNb);
+    immuData(ctx4, days,immunityNb);
+    guerisonData(ctx5, guerisonName, successGuNb, choiceGuNb);
+    aleaData(ctx6, aleaRoundNb, aleaNb);
+    depistageData(ctx7, depistageName, contaminationNb, choiceDpNb)
+}
+
 
 function updateState() {
   //rendre les boutons inactifs
@@ -137,6 +256,7 @@ function changeVirus(contamination) {
 
 /***** fonctions des events *****/
 function depistage() {
+    depiCount++
     addText(`${math.rand()}`, statiMalade);
     addText(`${math.rand()}`, statiPasMalade);
     addText(`${math.rand()}`, geoMalade);
@@ -154,18 +274,22 @@ function depistage() {
     let dbtn3 =  document.getElementById('d3');
 
     dbtn1.onclick = () => {
+        dpChoice1++;
+       
         proba = geoMalade;
-        depistageChoice(proba)
+        dpSuccess1 +=  depistageChoice(proba)
     };
 
     dbtn2.onclick = () => {
+        dpChoice2++;
         proba = statiMalade;
-        depistageChoice(proba)
+        dpSuccess2 += depistageChoice(proba)
     };
 
     dbtn3.onclick = () => {
+        dpChoice3++;
         proba = poissanMalade;
-        depistageChoice(proba)
+        dpSuccess3 += depistageChoice(proba)
     };
 
     endOfRound = true;
@@ -181,9 +305,14 @@ function depistageChoice(proba){
 
     addContamination=(math.binomiale(malades, Number(proba.innerText)))*3;
     addText(`Aie ${Math.abs(addContamination/3)} personnes ont été déclarées négatives alors qu'elles étaient bien malades et ont fait ${Math.abs(addContamination)} contaminations`, resultContainer);
+
+    return addContamination;
+
 }
 
 function aleas() {
+    aleaCount++;
+    aleaRoundNb.push(count);
     endOfRound = true;
     eventEnded = true;
 
@@ -192,6 +321,7 @@ function aleas() {
         total: originalPopulation
     }
     const newDeads = math.markovChain(pop)
+    aleaNb.push(newDeads);
     deads += newDeads
     malades -= pop.sick
     originalPopulation -= newDeads
@@ -201,6 +331,7 @@ function aleas() {
 }
 
 function immunity() {
+    immuCount++;
     addText("Immunité générale !!", eventContentContainer);
     endOfRound = true;
     eventEnded = true;
@@ -210,7 +341,7 @@ function immunity() {
 
 
 function guerison() {
-
+    guerisonCount++
     addText("", eventContentContainer);
     guerisonContentContainer.style.display = "block";
     guerisonPresentationContainer.style.display = "block";
@@ -223,16 +354,19 @@ function guerison() {
     let gbtn3 =  document.getElementById('g3');
 
     gbtn1.onclick = () => {
+        guChoice1++
         proba = 0.3;
         guerisonChoice(proba, 0.5)
     };
 
     gbtn2.onclick = () => {
+        guChoice2++
         proba = 0.5;
         guerisonChoice(proba, 0.25)
     };
 
     gbtn3.onclick = () => {
+        guChoice3++
         proba = 0.9;
         guerisonChoice(proba, 0.10)
     };
@@ -251,15 +385,38 @@ function guerisonChoice(proba, percentage){
     if(math.binomiale(3, proba) >= 2){
         addSick = - Math.floor(nbMalades*percentage);
         addText(`Super !! ${Math.abs(addSick)} personnes ont été guéri par le remède`, resultContainer);
+
+        //que qqun me pardonne pour ce code cracra
+
+        if(proba==0.3){
+            gueSuccess1+=  -addSick
+        }
+
+        if(proba==0.5){
+            gueSuccess2+= -addSick
+
+        }
+
+        if(proba==0.9){
+            gueSuccess3+= -addSick
+        }   
+
     }else{
         addText("Zut...Une mauvaise rumeur autour du remède a dissuadé la population de l'utiliser", resultContainer);
     }
 }
 
 function surprise() {
+    surpCount++
+    surpRoundNb.push(count);
 
     let playerNumber = math.rollDice(100); //on tire un nombre aléatoire entre 1 et 1000
+    playerNb.push(playerNumber);
+ 
     let successNumber = math.successGeo();
+
+    successNb.push(successNumber);
+
     let msgNumber = math.rollDice(4);
 
     if (playerNumber > successNumber) {
@@ -273,6 +430,8 @@ function surprise() {
 
         console.log("event positif")
     }
+
+    addSickNb.push(addSick);
 
     endOfRound = true;
     eventEnded = true;
@@ -306,9 +465,10 @@ function addText(text, div){
 
 function maladeEvolution(eventResult, contaminationResult) {
     count++;
+    days.push(count);
     let popText;
     let dailySicks = math.poissonDistribution(lambda)
-
+    immunityNb.push( immunityCount);
     if (immunityCount > 0) { // Immunity state has been triggered by immunity event
         dailySicks = 0; // If immunized, no sickness for today
         // While on immunity we count how many days does it last
@@ -316,15 +476,18 @@ function maladeEvolution(eventResult, contaminationResult) {
     }
 
     nbMalades = dailySicks + eventResult + contaminationResult;
+    newSick.push(nbMalades);
     malades += nbMalades;
     addSick = 0;
     addContamination = 0;
     malades = Math.min(malades, originalPopulation)
+    sickEvolution.push(malades);
+    dead.push(deads);
 
     popText = `${nbMalades} nouvelles personnes ont été contaminées aujourd'hui dont ${eventResult} 
                 causés par l'évènement de la veille et ${contaminationResult} causés par contamination. 
                 <br> Le nombre de personnes contaminées total JOUR ${count} est ${malades} <br> 
-                Population en bonne santé : ${originalPopulation - malades}
+                Population en bonne santé : ${originalPopulation - malades - deads}
                 Nombre de décès: ${deads}`;
     addText(popText, popEvoContainer);
 }

@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<title>Viral Variables</title>
 
 	<link href="assets/viralvariable.png" rel="icon">
 	<link rel="stylesheet" href="styles.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </head>
 
 <body>
 	<div class="container">
 		<h2>Hello world</h2>
+
 	</div>
 
 	<div id="modal" class="modal">
-		<div class="modal-content">
+		<div class="modal-container">
 			<img class="logo-img" src="assets/viralvariable.png" alt="viralvariablelogo">
 			<div>
 				<p>ALERTE, une pandémie vient d'éclater, fais de ton mieux pour gérer cette crise ! </p>
@@ -22,7 +26,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="country-choice" id="country-choice">
 		<p>Pour commencer, choisi un pays</p>
 		<div class="country-buttons" id="country-buttons">
@@ -71,12 +75,10 @@
 		</div>
 	</div>
 
-	<script src="js/app.js"></script>
-	  
-	  
+
 
 	<div class="game" id="game">
-		
+
 		<div class="container">
 			<p>Un clic sur le bouton = un jour</p>
 			<button class="nextRound" id="nextRound">Fin de tour</button>
@@ -125,27 +127,29 @@
 				<div class="depistageContainer" id="depistageContainer">
 
 					<div id="depistage-presentation">
-						<p>Les laboratoires ont mis en place 3 tests de dépistage, choisissez celui qui vous semble le plus avantageux
+						<p>Les laboratoires ont mis en place 3 tests de dépistage, choisissez celui qui vous semble le
+							plus avantageux
 							<ul>
 								<li>
-									Le test développé par les laboratoires Géomédic, 
+									Le test développé par les laboratoires Géomédic,
 
 									Si une personne est malade le test est positif à <p id="geo_malade"></p>
-									Si une personne n'est pas malade le test est positif à <p id ="geo_pasmalade"></p>
+									Si une personne n'est pas malade le test est positif à <p id="geo_pasmalade"></p>
 								</li>
 								<li>
-									Le test développé par les laboratoires Statistix, 
-									
-									Si une personne est malade le test est positif à <p id ="stati_malade"></p>
-									Si une personne n'est pas malade le test est négatif à <p id ="stati_pasmalade"></p>
+									Le test développé par les laboratoires Statistix,
+
+									Si une personne est malade le test est positif à <p id="stati_malade"></p>
+									Si une personne n'est pas malade le test est négatif à <p id="stati_pasmalade"></p>
 
 								</li>
 
 								<li>
 									Le test développé par les laboratoires Poissanté,
 
-									Si une personne est malade le test est négatif à <p id ="poissan_malade"></p>
-									Si une personne n'est pas malade le test est positif à <p id ="poissan_pasmalade"></p>
+									Si une personne est malade le test est négatif à <p id="poissan_malade"></p>
+									Si une personne n'est pas malade le test est positif à <p id="poissan_pasmalade">
+									</p>
 								</li>
 							</ul>
 
@@ -162,17 +166,39 @@
 
 
 					<div id="depistage-result">
+					</div>
 				</div>
+
+
+
 			</div>
-
-
-
 		</div>
 	</div>
 
-	<fotter></fotter>
+	<div class="container">
+		<button id="show-stats">Show stats</button>
+		<canvas id="stats"></canvas>
+		<canvas id="stats3"></canvas>
+		<canvas id="stats4"></canvas>
+		<canvas id="stats5"></canvas>
+		<canvas id="stats6"></canvas>
+		<canvas id="stats7"></canvas>
+		<canvas id="stats2"></canvas>
 
+	
+	</div>
+
+
+
+	<footer></footer>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="js/app.js" type="module"></script>
+	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script> -->
+
+
+
 </body>
 
 </html>
