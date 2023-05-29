@@ -8,11 +8,32 @@ export function rand() {
     return randomValue;
 }
 
+/**
+ * Fonction qui genere un nombre aleatoire selon la loi de Weibull, avec {@link scale} comme parametre d'echelle et {@link shape} comme parametre de forme
+ * @param {Number} scale 
+ * @param {Number} shape 
+ * @returns 
+ */
+function generateRandomWeibull(scale, shape) {
+    // Générer un nombre aléatoire entre 0 et 1 (exclus)
+    const u = Math.random();
+  
+    // Appliquer la méthode inverse de la fonction de répartition de Weibull
+    const x = Math.pow(-Math.log(1 - u), 1 / shape) * scale;
+  
+    return x;
+}
+
+
 export function markovChain(pop) {
+    // Fonction pour générer un nombre aléatoire selon la loi de Weibull
+    let deathProbability = Math.min(generateRandomWeibull(pop.sick * (50 / pop.total), 2) / 100, 1)
+    console.log("Probabilite de mourir : " + deathProbability)
+
     // We define states as it is: [Healthy, Sick, Dead]
     let transitionProbas = [
-        [0.80, 0.15, 0.0001],
-        [0.00, 0.90, 0.01],
+        [0.80, 0.1999, 0.0001], // Healthy
+        [0.00, 1 - deathProbability, deathProbability], // Sick
     ]
     console.log("La population totale est : " + pop.total)
     console.log("La population en bonne sante est : " + pop.sick)
@@ -99,20 +120,16 @@ export function poisson(lambda, k) {
     return eLambda * proba; // e^-lambda * (lambda^k / k!)
 } 
 
-export function immunity(count) {
-    const lambda = 1 / 2;
-    let chance = rand();
-    let proba = exp(lambda, count);
-    console.log(`Immunity chances are of ${chance * 100}%`);
-    console.log(`Proba is ${proba * 100}%`);
-    return chance <= proba;
-}
-
-// Loi exponentielle
-export function exp(lambda, k) {
-    console.log(`lambda: ${lambda}`);
-    console.log(`k: ${k}`);
-    return Math.exp(-lambda * k);
+// Fonction pour générer une durée d'immunité individuelle selon la loi exponentielle
+export function generateImmunityDuration() {
+    // Générer un nombre aléatoire entre 0 et 1 (exclus)
+    const u = Math.random();
+  
+    // Appliquer la fonction inverse de la distribution exponentielle
+    const duration = -Math.log(1 - u) / 0.75; // 
+  
+    console.log("Immunity duration is : " + Math.ceil(duration))
+    return Math.ceil(duration);
 }
 
 //version avec factorielle explose
