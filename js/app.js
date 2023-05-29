@@ -417,16 +417,16 @@ function guerisonChoice(proba, percentage){
   addSick -= popCured; // On enlève le nombre de personnes soignées au nombre total de malades
 
   
-  if(proba==0.3){
+  if(proba==0.9){
     gueSuccess1+=  -addSick
 }
 
-if(proba==0.5){
+if(proba==0.3){
     gueSuccess2+= -addSick
 
 }
 
-if(proba==0.9){
+if(proba==0.05){
     gueSuccess3+= -addSick
 }   
 
