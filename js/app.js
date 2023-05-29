@@ -1,7 +1,7 @@
 import * as math from './math.js';
 
 let originalPopulation = 15000;
-let population = originalPopulation;
+let deads = 0;
 let lambda = 50;
 let count = 0; // Nombre de jours
 let immunityCount = 0;
@@ -56,14 +56,14 @@ window.onload = function () {
     for (let i = 0; i < countryClose.length; i++) {
       countryClose[i].onclick = function () {
         if (i==0){
-            originalPopulation = 10000;
+            originalPopulation = math.generateRandomFromNormalDistribution(10_000, 500);
         }
         if (i==1){
-            originalPopulation = 70000;
+            originalPopulation = math.generateRandomFromNormalDistribution(70_000, 3_500);
         }
     
         if (i==2){
-            originalPopulation = 300000;
+            originalPopulation = math.generateRandomFromNormalDistribution(300_000, 15_000);
         }
         console.log("Updated originalPopulation:", originalPopulation);
         countryContainer.style.display = 'none';
@@ -185,9 +185,19 @@ function depistageChoice(proba){
 }
 
 function aleas() {
-    addText("oups la fonction d'aleas n'est pas encore codée", eventContentContainer);
     endOfRound = true;
     eventEnded = true;
+
+    let pop = {
+        sick: malades,
+        total: originalPopulation
+    }
+    const newDeads = math.markovChain(pop)
+    deads += newDeads
+    malades -= pop.sick
+    originalPopulation -= newDeads
+    addText(`Des mouches sont encores tombées, ${newDeads} nouvelles victime de l'épidémie, pour un total de ${deads} morts`, eventContentContainer);
+
     updateState();
 }
 
@@ -298,7 +308,6 @@ function addText(text, div){
 
 function maladeEvolution(eventResult, contaminationResult) {
     count++;
-    population -= nbMalades;
     let popText;
     nbMalades = math.poissonDistribution(lambda) + eventResult + contaminationResult;
 
@@ -319,7 +328,8 @@ function maladeEvolution(eventResult, contaminationResult) {
     popText = `${nbMalades} nouvelles personnes ont été contaminées aujourd'hui dont ${eventResult} 
                 causés par l'évènement de la veille et ${contaminationResult} causés par contamination. 
                 <br> Le nombre de personnes contaminées total JOUR ${count} est ${malades} <br> 
-                Population en bonne santé : ${originalPopulation - malades}`;
+                Population en bonne santé : ${originalPopulation - malades}
+                Nombre de décès: ${deads}`;
     addText(popText, popEvoContainer);
 }
 
