@@ -3,10 +3,11 @@
  * @returns Nombre aleatoire suivant une loi uniforme[0, 1]
  */
 export function rand() {
-    // Trim random number to 2 decimals.
     let randomValue = Number(Math.random().toFixed(2));
     return randomValue;
 }
+
+
 
 /**
  * Fonction qui genere un nombre aleatoire selon la loi de Weibull, avec {@link scale} comme parametre d'echelle et {@link shape} comme parametre de forme
@@ -198,7 +199,7 @@ export function binomialeMockPoisson(n) {
 }
 
 export function rollDice(nbEventType) {
-    return Math.floor(Math.random() * nbEventType);
+    return Math.floor(Math.random() * nbEventType); // dès de 0 à nbEventType - 1 
 }
 
 function customChoice(probabilities) {

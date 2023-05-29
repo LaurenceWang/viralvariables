@@ -34,6 +34,7 @@ let statiPasMalade = document.getElementById('stati_pasmalade');
 let poissanMalade = document.getElementById('poissan_malade');
 let poissanPasMalade = document.getElementById('poissan_pasmalade');
 
+
 //recuperation boutons
 let nextRoundbtn = document.getElementById('nextRound');
 let eventBtn = document.getElementById('dice');
@@ -102,7 +103,7 @@ nextRoundbtn.onclick = () => {
 };
 
 eventBtn.onclick = () => {
-  let resultEvent = eventType[Math.floor(Math.random() * eventType.length)];
+  let resultEvent = eventType[math.rollDice(eventType.length)];
   addText(resultEvent, eventNameContainer);
 
   //on appelle la fonction qui correspond à l'event
@@ -137,35 +138,46 @@ function changeVirus(contamination) {
 
 /***** fonctions des events *****/
 function depistage() {
-    addText(`${math.rand()}`, statiMalade);
-    addText(`${math.rand()}`, statiPasMalade);
-    addText(`${math.rand()}`, geoMalade);
-    addText(`${math.rand()}`, geoPasMalade);
-    addText(`${math.rand()}`, poissanMalade);
-    addText(`${math.rand()}`, poissanPasMalade);
+    const geoMaladeValue = ((Math.random() * 0.10) + 0.90).toFixed(2);
+    const geoPasMaladeValue = (Math.random() * 0.10).toFixed(2);
+    const statiMaladeValue = ((Math.random() * 0.10) + 0.90).toFixed(2);
+    const statiPasMaladeValue = ((Math.random() * 0.10) + 0.90).toFixed(2);
+    const poissanMaladeValue = (Math.random() * 0.10).toFixed(2);
+    const poissanPasMaladeValue = (Math.random() * 0.10).toFixed(2);
+
+    addText(geoMaladeValue, geoMalade);
+    addText(geoPasMaladeValue, geoPasMalade);
+    addText(statiMaladeValue, statiMalade);
+    addText(statiPasMaladeValue, statiPasMalade);
+    addText(poissanMaladeValue, poissanMalade);
+    addText(poissanPasMaladeValue, poissanPasMalade);
+    
     depistageContentContainer.style.display = "block";
     depistagePresentationContainer.style.display = "block";
 
+    let fauxpos = 0;
+    let fauxneg = 0;
 
-    let proba = 0; 
-
-    let dbtn1 =  document.getElementById('d1');
-    let dbtn2 =  document.getElementById('d2');
-    let dbtn3 =  document.getElementById('d3');
+    let dbtn1 = document.getElementById('d1');
+    let dbtn2 = document.getElementById('d2');
+    let dbtn3 = document.getElementById('d3');
 
     dbtn1.onclick = () => {
-        proba = geoMalade;
-        depistageChoice(proba)
+        fauxpos = parseFloat(geoPasMaladeValue);
+        fauxneg = 1 - parseFloat(geoMaladeValue);
+        depistageChoice(fauxpos, fauxneg);
     };
 
     dbtn2.onclick = () => {
-        proba = statiMalade;
-        depistageChoice(proba)
+        fauxpos = 1 - parseFloat(statiPasMaladeValue);
+        fauxneg = 1 - parseFloat(statiMaladeValue);
+        depistageChoice(fauxpos, fauxneg);
     };
 
     dbtn3.onclick = () => {
-        proba = poissanMalade;
-        depistageChoice(proba)
+        fauxpos = parseFloat(poissanPasMaladeValue);
+        fauxneg = parseFloat(poissanMaladeValue);
+        depistageChoice(fauxpos, fauxneg);
     };
 
     endOfRound = true;
@@ -173,14 +185,25 @@ function depistage() {
     updateState();
 }
 
-function depistageChoice(proba){
+
+function depistageChoice(fauxpos, fauxneg){
 
 
     let resultContainer = document.getElementById('depistage-result');
     depistagePresentationContainer.style.display = "none";
 
-    addContamination=(math.binomiale(malades, Number(proba.innerText)))*3;
-    addText(`Aie ${Math.abs(addContamination/3)} personnes ont été déclarées négatives alors qu'elles étaient bien malades et ont fait ${Math.abs(addContamination)} contaminations`, resultContainer);
+    let fauxnegnb =0;
+    let fauxposnb =0;
+    fauxnegnb = math.binomiale(malades, Number(fauxneg));
+    console.log(fauxneg);
+    console.log(fauxnegnb);
+    fauxposnb = math.binomiale(originalPopulation-malades, Number(fauxpos));
+    console.log(fauxpos);
+    console.log(fauxposnb);
+
+
+    addContamination=(fauxnegnb)*3 + Math.floor(fauxposnb * 0.4);
+    addText(`Aie ${fauxnegnb} personnes ont été déclarées négatives alors qu'elles étaient bien malades et ont fait ${fauxnegnb*3} contaminations et ${fauxposnb} personnes ont été déclarées malades alors qu'elles ne l'étaient pas vraiment, mais desormais en contact avec des malades, ${Math.floor(fauxposnb * 0.4)} d'entre elles le sont devenues `, resultContainer);
 }
 
 function aleas() {
@@ -223,18 +246,18 @@ function guerison() {
     let gbtn3 =  document.getElementById('g3');
 
     gbtn1.onclick = () => {
-        proba = 0.3;
-        guerisonChoice(proba, 0.5)
+        proba = 0.01;
+        guerisonChoice(proba, 0.7)
     };
 
     gbtn2.onclick = () => {
-        proba = 0.5;
-        guerisonChoice(proba, 0.25)
+        proba = 0.3;
+        guerisonChoice(proba, 0.4)
     };
 
     gbtn3.onclick = () => {
-        proba = 0.9;
-        guerisonChoice(proba, 0.10)
+        proba = 0.95;
+        guerisonChoice(proba, 0.2)
     };
 
 
@@ -248,17 +271,25 @@ function guerisonChoice(proba, percentage){
     let resultContainer = document.getElementById('guerison-result');
     guerisonPresentationContainer.style.display = "none";
 
-    if(math.binomiale(3, proba) >= 2){
-        addSick = - Math.floor(nbMalades*percentage);
-        addText(`Super !! ${Math.abs(addSick)} personnes ont été guéri par le remède`, resultContainer);
-    }else{
-        addText("Zut...Une mauvaise rumeur autour du remède a dissuadé la population de l'utiliser", resultContainer);
+    let numTakingMed = Math.floor((originalPopulation -(originalPopulation - malades)) * percentage); // Nombre de gens qui essaient le médicament
+    let popCured = 0; // Nombre de gens soignés par le médicament
+
+  for (let i = 0; i < numTakingMed; i++) {
+    if (math.bernoulli(proba)) {
+      popCured++;
     }
+  }
+  if (popCured > malades){
+    popCured==malades;
+  }
+  addSick -= popCured; // On enlève le nombre de personnes soignées au nombre total de malades
+
+  addText(`Super !! ${popCured} personnes ont été guéries par le remède`, resultContainer);
 }
 
 function surprise() {
 
-    let playerNumber = math.rollDice(100); //on tire un nombre aléatoire entre 1 et 1000
+    let playerNumber = math.rollDice(100); //on tire un nombre aléatoire entre 1 et 100
     let successNumber = math.successGeo();
     let msgNumber = math.rollDice(4);
 
