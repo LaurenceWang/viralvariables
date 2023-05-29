@@ -246,8 +246,8 @@ function guerison() {
     let gbtn3 =  document.getElementById('g3');
 
     gbtn1.onclick = () => {
-        proba = 0.01;
-        guerisonChoice(proba, 0.7)
+        proba = 0.9;
+        guerisonChoice(proba, 0.1)
     };
 
     gbtn2.onclick = () => {
@@ -256,8 +256,8 @@ function guerison() {
     };
 
     gbtn3.onclick = () => {
-        proba = 0.95;
-        guerisonChoice(proba, 0.2)
+        proba = 0.05;
+        guerisonChoice(proba, 0.5)
     };
 
 
@@ -288,21 +288,20 @@ function guerisonChoice(proba, percentage){
 }
 
 function surprise() {
+    let playerNumber = math.rollDice(100); // On tire un nombre aléatoire entre 1 et 100
 
-    let playerNumber = math.rollDice(100); //on tire un nombre aléatoire entre 1 et 100
-    let successNumber = math.successGeo();
-    let msgNumber = math.rollDice(4);
+    let successNumber = math.successGeo(); // Utilisation de la fonction successGeo() pour obtenir le nombre de tirages nécessaires pour un succès
+
+    let msgNumber = math.rollDice(4); // Génération du numéro de message aléatoire
 
     if (playerNumber > successNumber) {
-        addSick = math.rollDice(malades/2); //Valeur a ajuster ici 
-        addText(negSurprise(msgNumber, addSick), eventContentContainer)
-
-        console.log("event negatif")
+        addSick = math.rollDice(successNumber*0.01*(originalPopulation)%malades);
+        addText(negSurprise(msgNumber, addSick), eventContentContainer);
+        console.log("Événement négatif");
     } else {
-        addSick = -math.rollDice(malades/2);
-        addText(posSurprise(msgNumber, addSick), eventContentContainer)
-
-        console.log("event positif")
+        addSick = -math.rollDice(playerNumber*0.01*(originalPopulation)%malades);
+        addText(posSurprise(msgNumber, addSick), eventContentContainer);
+        console.log("Événement positif");
     }
 
     endOfRound = true;
@@ -320,7 +319,7 @@ function posSurprise(messageNb, sickNb){
 }
 
 function negSurprise(messageNb, sickNb){
-    let negSurprises = [`${sickNb} personnes ont mangé un drôle de tacos hier...Oh`, `Le pays ennemi envoie une armée de moustiques porteur du virus !! ${sickNb} personnes ont été piqués`, `L'âge de départ à la retraite a encore reculé... le corps médical décide de faire grêve...${sickNb} personnes en plus attrapent le virus`, `${sickNb} étudiants ont enchainé des nuits blanches pour finir leurs projets...ils sont si fatigués que leur corp n'a pas produit d'anti-corps` ]
+    let negSurprises = [`${sickNb} personnes ont mangé un drôle de tacos hier...Oh`, `Le pays ennemi envoie une armée de moustiques porteur du virus !! ${sickNb} personnes ont été piqués`, `L'âge de départ à la retraite a encore reculé... le corps médical décide de faire grêve...${sickNb} personnes en plus attrapent le virus`, `${sickNb} étudiants ont enchainé des nuits blanches pour finir leurs projets...ils sont si fatigués que leur corps n'a pas produit d'anti-corps` ]
 
     return negSurprises[messageNb];
 }
