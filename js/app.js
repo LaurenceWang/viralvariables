@@ -66,6 +66,8 @@ let endOfRound = true;
 let eventEnded = true;
 
 //recuperation div
+let game = document.getElementById('viralvariable');
+let montagne = document.getElementById('montagne');
 const ctx = document.getElementById('stats');
 const ctx2 = document.getElementById('stats2');
 const ctx3 = document.getElementById('stats3');
@@ -73,6 +75,9 @@ const ctx4 = document.getElementById('stats4');
 const ctx5 = document.getElementById('stats5');
 const ctx6 = document.getElementById('stats6');
 const ctx7 = document.getElementById('stats7');
+
+
+let statsContainer = document.getElementById('stats-container');
 let gameContainer = document.getElementById('game');
 let countryContainer = document.getElementById('country-choice');
 let virusContainer = document.getElementById('virus-choice');
@@ -84,6 +89,12 @@ let guerisonContentContainer = document.getElementById('guerisonContainer');
 let guerisonPresentationContainer = document.getElementById('guerison-presentation');
 let depistageContentContainer = document.getElementById('depistageContainer');
 let depistagePresentationContainer = document.getElementById('depistage-presentation');
+
+///result 
+
+let depistageResult = document.getElementById('depistage-result');
+let guerisonResult = document.getElementById('guerison-result');
+
 
 let geoMalade = document.getElementById('geo_malade');
 let geoPasMalade = document.getElementById('geo_pasmalade');
@@ -100,6 +111,8 @@ let eventBtn = document.getElementById('dice');
 let  statBtn = document.getElementById('show-stats');
 statBtn.style.display = "none";
 
+let playAgain = document.getElementById('play-again');
+playAgain.style.display = "none";
 
 window.onload = function () {
     let modal = document.getElementById('modal');
@@ -162,6 +175,7 @@ nextRoundbtn.onclick = () => {
   eventContainer.style.display = "none";
   guerisonContentContainer.style.display = "none";
   depistageContentContainer.style.display = "none";
+  eventContentContainer.innerHTML = "";
   updateState();
   endGame();
 
@@ -212,13 +226,18 @@ function endGame(){
 }
 
 statBtn.onclick = () => {
+    statsContainer.style.display = "block";
+    game.style.backgroundColor = "#e6e6e6";
+    montagne.style.background = "none";
+    statBtn.classList.add('disabled');
+    playAgain.style.display = "block";
+
     let eventNb = [depiCount, aleaCount, guerisonCount, surpCount, immuCount];
     let successGuNb = [gueSuccess1, gueSuccess2, gueSuccess3];
     let choiceGuNb = [guChoice1, guChoice2, guChoice3];
 
     let contaminationNb = [dpSuccess1, dpSuccess2, dpSuccess3];
     let choiceDpNb = [dpChoice1, dpChoice2, dpChoice3];
-
 
     chartData(ctx, sickEvolution, days, newSick, dead);
     eventData(ctx2, eventType, eventNb);
@@ -228,6 +247,10 @@ statBtn.onclick = () => {
     aleaData(ctx6, aleaRoundNb, aleaNb);
     depistageData(ctx7, depistageName, contaminationNb, choiceDpNb)
 }
+
+playAgain.onclick = () => {
+  document.location.reload();
+} 
 
 
 function updateState() {
@@ -265,15 +288,16 @@ function depistage() {
     const poissanMaladeValue = (Math.random() * 0.10).toFixed(2);
     const poissanPasMaladeValue = (Math.random() * 0.10).toFixed(2);
 
-    addText(geoMaladeValue, geoMalade);
-    addText(geoPasMaladeValue, geoPasMalade);
-    addText(statiMaladeValue, statiMalade);
-    addText(statiPasMaladeValue, statiPasMalade);
-    addText(poissanMaladeValue, poissanMalade);
-    addText(poissanPasMaladeValue, poissanPasMalade);
+    addWord(geoMaladeValue, geoMalade);
+    addWord(geoPasMaladeValue, geoPasMalade);
+    addWord(statiMaladeValue, statiMalade);
+    addWord(statiPasMaladeValue, statiPasMalade);
+    addWord(poissanMaladeValue, poissanMalade);
+    addWord(poissanPasMaladeValue, poissanPasMalade);
     
     depistageContentContainer.style.display = "block";
     depistagePresentationContainer.style.display = "block";
+    depistageResult.innerHTML = "";
 
     let fauxpos = 0;
     let fauxneg = 0;
@@ -312,8 +336,9 @@ function depistage() {
 function depistageChoice(fauxpos, fauxneg){
 
 
-    let resultContainer = document.getElementById('depistage-result');
+    //let resultContainer = document.getElementById('depistage-result');
     depistagePresentationContainer.style.display = "none";
+
 
     let fauxnegnb =0;
     let fauxposnb =0;
@@ -326,7 +351,7 @@ function depistageChoice(fauxpos, fauxneg){
 
 
     addContamination=(fauxnegnb)*3 + Math.floor(fauxposnb * 0.4);
-    addText(`Aie ${fauxnegnb} personnes ont été déclarées négatives alors qu'elles étaient bien malades et ont fait ${fauxnegnb*3} contaminations et ${fauxposnb} personnes ont été déclarées malades alors qu'elles ne l'étaient pas vraiment, mais desormais en contact avec des malades, ${Math.floor(fauxposnb * 0.4)} d'entre elles le sont devenues `, resultContainer);
+    addText(`Aie ${fauxnegnb} personnes ont été déclarées négatives alors qu'elles étaient bien malades et ont fait ${fauxnegnb*3} contaminations et ${fauxposnb} personnes ont été déclarées malades alors qu'elles ne l'étaient pas vraiment, mais desormais en contact avec des malades, ${Math.floor(fauxposnb * 0.4)} d'entre elles le sont devenues `, depistageResult);
 
     return addContamination;
 }
@@ -366,6 +391,7 @@ function guerison() {
     addText("", eventContentContainer);
     guerisonContentContainer.style.display = "block";
     guerisonPresentationContainer.style.display = "block";
+    guerisonResult.innerHTML = "";
 
 
     let proba = 0; 
@@ -403,7 +429,7 @@ function guerisonChoice(proba, percentage){
 
     let resultContainer = document.getElementById('guerison-result');
     guerisonPresentationContainer.style.display = "none";
-
+    
     let numTakingMed = Math.floor((originalPopulation -(originalPopulation - malades)) * percentage); // Nombre de gens qui essaient le médicament
     let popCured = 0; // Nombre de gens soignés par le médicament
 
@@ -417,7 +443,7 @@ function guerisonChoice(proba, percentage){
   }
   addSick -= popCured; // On enlève le nombre de personnes soignées au nombre total de malades
 
-  addText(`Super !! ${popCured} personnes ont été guéries par le remède`, resultContainer);
+  addText(`Super !! ${popCured} personnes ont été guéries par le remède`, guerisonResult);
   return addSick;
 }
 
@@ -474,6 +500,13 @@ function addText(text, div){
     div.appendChild(message);
 }
 
+function addWord(text, div){
+  //let message = document.createElement('span');
+  
+  div.innerHTML = '';
+  div.innerHTML = text;
+  //div.appendChild(text);
+}
 
 /** malade evolution **/
 

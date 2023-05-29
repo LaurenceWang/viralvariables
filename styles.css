@@ -82,11 +82,19 @@
   .game{
 	text-align: center;
     display:none;
+	z-index: 2;
+	background-color: #e6e6e6;
+	padding : 50px 200px;
+	border-radius: 25px;
   }
   
   .country-choice {
 	display: none;
 	text-align: center;
+	z-index: 2;
+	background-color: #e6e6e6;
+	padding : 50px 200px;
+	border-radius: 25px;
   }
   
   .country-buttons {
@@ -98,7 +106,14 @@
 
   .country-card {
 	text-align: center;
+	padding : 10px;
   }
+
+  .country-card:hover {
+	transform: scale(1.1);
+	transition: 0.1s ease-in-out;
+  }
+  
   
   .close-country-button {
 	border: none;
@@ -113,6 +128,10 @@
   .virus-choice {
 	display: none;
 	text-align: center;
+	background-color: #e6e6e6;
+	padding : 50px 200px;
+	border-radius: 25px;
+	z-index: 2;
   }
   
   .virus-buttons {
@@ -120,10 +139,17 @@
 	justify-content: center; 
 	align-items: center;
 	width: 100%;
+	
   }
 
   .virus-card {
 	text-align: center;
+	padding : 10px;
+  }
+
+  .virus-card:hover{
+	transform: scale(1.1);
+	transition: 0.1s ease-in-out;
   }
   
   .close-virus-button {
@@ -146,4 +172,61 @@
 
   .container canvas{
 	margin : 50px 0px;
+  }
+
+  .stats-container{
+	display:none;
+	background-color: #e6e6e6;
+	width: 100vw;
+	z-index:4;
+  }
+
+  .viralvariable{
+    margin: 0;
+    background-color: #364041;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	justify-content: center;
+	align-items: center;
+  
+  }
+  
+  .montagne {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: url(assets/background.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+	z-index: 0;
+  
+  }
+
+  .nextRound{
+	margin-bottom : 15px;
+  }
+
+  .eventName{
+	padding-top: 20px;
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size : 1.2rem;
+  }
+
+  span{
+	font-weight: 600;
+  }
+
+  .stats-btn{
+	margin-top: 20px;
+	z-index:2;
+  }
+
+  .play-again{
+	z-index: 2;
   }

@@ -12,20 +12,24 @@
 </head>
 
 <body>
-	<div class="container">
-		<h2>Hello world</h2>
-
-	</div>
+	
 
 	<div id="modal" class="modal">
 		<div class="modal-container">
 			<img class="logo-img" src="assets/viralvariable.png" alt="viralvariablelogo">
 			<div>
-				<p>ALERTE, une pandémie vient d'éclater, fais de ton mieux pour gérer cette crise ! </p>
+				<p>ALERTE, une pandémie vient d'éclater, fais de ton mieux pour gérer cette crise ! Tu as 30 jours ! </p>
 				<button id="modal-close" class="modal-close">Commencer</button>
 			</div>
 		</div>
 	</div>
+
+	<!-- <div class="container">
+		<h2>Hello world</h2>
+
+	</div> -->
+	<div class="viralvariable" id="viralvariable">
+		<div class="montagne" id="montagne"></div>
 
 	<div class="country-choice" id="country-choice">
 		<p>Pour commencer, choisi un pays</p>
@@ -80,10 +84,10 @@
 	<div class="game" id="game">
 
 		<div class="container">
-			<p>Un clic sur le bouton = un jour</p>
-			<button class="nextRound" id="nextRound">Fin de tour</button>
+			<p><strong>Un clic</strong> sur le bouton = <strong>un jour</strong></p>
+			<button class="nextRound btn btn-danger" id="nextRound">Fin de tour</button>
 			<div class="popEvolution" id="popEvolution"></div>
-			<button class="dice disabled" id="dice">Tirer un évènement</button>
+			<button class="dice disabled btn btn-success" id="dice">Tirer un évènement</button>
 			<div class="event" id="event">
 				<div class="eventName" id="eventName"></div>
 				<div class="eventContent" id="eventContent"></div>
@@ -133,22 +137,22 @@
 								<li>
 									Le test développé par les laboratoires Géomédic,
 
-									Si une personne est malade le test est positif à <p id="geo_malade"></p>
-									Si une personne n'est pas malade le test est positif à <p id="geo_pasmalade"></p>
+									Si une personne est malade le test est positif à <span id="geo_malade"></span>.
+									Si une personne n'est pas malade le test est positif à <span id="geo_pasmalade"></span>.
 								</li>
 								<li>
 									Le test développé par les laboratoires Statistix,
 
-									Si une personne est malade le test est positif à <p id="stati_malade"></p>
-									Si une personne n'est pas malade le test est négatif à <p id="stati_pasmalade"></p>
+									Si une personne est malade le test est positif à <span id="stati_malade"></span>
+									Si une personne n'est pas malade le test est négatif à <span id="stati_pasmalade"></span>
 
 								</li>
 
 								<li>
 									Le test développé par les laboratoires Poissanté,
 
-									Si une personne est malade le test est négatif à <p id="poissan_malade"></p>
-									Si une personne n'est pas malade le test est positif à <p id="poissan_pasmalade">
+									Si une personne est malade le test est négatif à <span id="poissan_malade"></span>
+									Si une personne n'est pas malade le test est positif à <span id="poissan_pasmalade">
 									</p>
 								</li>
 							</ul>
@@ -174,9 +178,14 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<button id="play-again" class="btn btn-dark play-again">Play again</button>
+	<button id="show-stats" class="btn btn-primary stats-btn">Show stats</button>
 
-	<div class="container">
-		<button id="show-stats">Show stats</button>
+
+	<div class="container stats-container" id="stats-container">
+		
 		<canvas id="stats"></canvas>
 		<canvas id="stats3"></canvas>
 		<canvas id="stats4"></canvas>
@@ -189,7 +198,7 @@
 	</div>
 
 
-
+	</div>
 	<footer></footer>
 
 
