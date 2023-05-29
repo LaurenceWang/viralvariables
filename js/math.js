@@ -1,7 +1,4 @@
-/**
- * Generation d'un nombre aleatoire suivant une loi uniforme[0, 1]
- * @returns Nombre aleatoire suivant une loi uniforme[0, 1]
- */
+
 export function rand() {
     let randomValue = Number(Math.random().toFixed(2));
     return randomValue;
@@ -74,7 +71,7 @@ export function markovChain(pop) {
  * @param {number} sigma Ecart type de la loi normale
  * @returns {number} la valeur aleatoire suivant la loi normale centree autour de mu d'ecart type sigma
  */
-export function generateRandomFromNormalDistribution(mu, sigma) {
+export function NormalDistribution(mu, sigma) {
   const u1 = rand(); 
   const u2 = rand(); 
   // Methode de Box-Muller
